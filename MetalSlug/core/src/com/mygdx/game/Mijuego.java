@@ -35,9 +35,10 @@ public class Mijuego extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         camara.update();
         batch.setProjectionMatrix(camara.combined);
-        jugador.movimiento();
+        
         batch.begin();
         jugador.render(batch);
+        jugador.movimiento(batch);
         batch.end();
     }
 
