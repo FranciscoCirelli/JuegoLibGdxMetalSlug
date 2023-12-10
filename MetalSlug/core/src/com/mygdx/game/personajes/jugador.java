@@ -28,12 +28,9 @@ public class jugador {
       private float velocidadY;
       private boolean enElAire;
       private static float GRAVEDAD = -1500f;
-      private static float ALTURA_DEL_SUELO = 100.0f; // Ajusta este valor según tus necesidades
+      private static float ALTURA_DEL_SUELO = 28.0f; // Ajusta este valor según tus necesidades
       private static float VELOCIDAD_INICIAL_DE_SALTO = 450f;
       
-
-
-
     public jugador(float x, float y) {
         this.x = x;
         this.y = y;
@@ -41,25 +38,41 @@ public class jugador {
 
         tiempo = 0f;
 
-        
     }
 
-    public void render(final SpriteBatch batch) {
-    	 animaciones();
+
+    public float getX() {
+		return x;
+	}
+
+	public float getY() {
+		return y;
+	}
+	
+	
+	
+
+    public void render(SpriteBatch batch) {
         tiempo += Gdx.graphics.getDeltaTime(); //el tiempo que pasa desde el ultimo render
         frameActual = (TextureRegion) animacion.getKeyFrame(tiempo, true);
-        
-        
+        update(batch);
     }
     
   
-    public void movimiento(final SpriteBatch batch) {
+    private void update(SpriteBatch batch) {
+    	 movimiento();
+         dibujar(batch);
+	}
+
+
+	public void movimiento() {
     	if ((Gdx.input.isKeyPressed(Input.Keys.D))) { 
     		
     		x += 3;
     		frameActual = (TextureRegion) animacionDerecha.getKeyFrame(tiempo, true);
     		
-    		Render.batch.draw(frameActual, x, y);
+    		
+    		
     		
     	
     	} else if ((Gdx.input.isKeyPressed(Input.Keys.A))) {
@@ -67,13 +80,15 @@ public class jugador {
     		x -= 3; 
     		frameActual = (TextureRegion) animacionIzquierda.getKeyFrame(tiempo, true);
     		
-    		Render.batch.draw(frameActual, x, y);
+    		
+    		
     		
     	} else if (!(Gdx.input.isKeyPressed(Input.Keys.D)) || !(Gdx.input.isKeyPressed(Input.Keys.A))){
     		
     		frameActual = (TextureRegion) animacion.getKeyFrame(tiempo, true);
     		
-    		Render.batch.draw(frameActual, x, y);
+    	
+    		
     	
     		
     	} if (Gdx.input.isKeyPressed(Input.Keys.W) && !enElAire) {
@@ -98,11 +113,12 @@ public class jugador {
             }
         }
 
-        // Dibuja el frame actual en la posición actual
-        Render.batch.draw(frameActual, x, y);
     }
-    	
     
+    public void dibujar(SpriteBatch batch) {
+        Render.batch.draw(frameActual, x, y);
+    	
+    }
 
      public void animaciones() {
     	 img = new Texture(Gdx.files.internal("Sprite-Quieto.png"));
@@ -129,6 +145,12 @@ public class jugador {
          	}
          animacionIzquierda = new Animation(1/13f,regionsMovimientoIzquierda);
     	}
+     
+     public void dispose() {
+         
+         
+     }
+     
      
      
 
